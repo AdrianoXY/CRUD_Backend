@@ -4,11 +4,11 @@ const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
 
-const USER = require("./module/user");
-
 const { MONGODB_HOST, MONGODB_PORT, MONGODB_DBNAME } = process.env;
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 let mongoUrl = `mongodb://`;
 mongoUrl += `${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_DBNAME}`;
@@ -21,4 +21,8 @@ mongoose
     console.log("Connect Error");
   });
 
-app.listen(80);
+app.use("/api", require("./routes/api"));
+
+app.listen(80, () => {
+  console.log("Port listen at 80");
+});
