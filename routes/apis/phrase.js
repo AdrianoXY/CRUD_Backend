@@ -35,7 +35,7 @@ router
     try {
       const { phraseId } = req.params;
       const deletePhrase = await PHRASE.findOneAndDelete({ _id: phraseId });
-      if (deletePhrase) {
+      if (!deletePhrase) {
         res.status(404).json({ message: "無此資料" });
       } else {
         res.status(200).json({ message: "刪除成功" });
